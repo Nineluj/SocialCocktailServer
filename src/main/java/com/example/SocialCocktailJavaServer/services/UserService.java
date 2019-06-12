@@ -24,4 +24,12 @@ public class UserService {
 		}
 		return null;
 	}
+	
+	public User getUsername(Integer userId) {
+		System.out.println(userId);
+		if (this.userRepository.findById(userId).isPresent()) {
+			return this.userRepository.findById(userId).get();
+		}
+		return null;
+	}
 }
