@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +51,7 @@ public class UserController {
 	@GetMapping("/api/user")
 	public User getLoggedInUser(HttpSession session, HttpServletResponse response) {
 		if (session.getAttribute("userId") != null) {
-			return this.userService.getLoggedInUser((Integer)session.getAttribute("userId"));
+			return this.userService.findUserById((Integer)session.getAttribute("userId"));
 		}
 		response.setStatus(404);
 		return null;
@@ -64,6 +65,11 @@ public class UserController {
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+	}
+	
+	@GetMapping("/api/users/{id}")
+	public User findUserById(@PathVariable Integer id) {
+		return this.userService.findUserById(id);
 	}
 	
 	// Update the currently logged-in User's information

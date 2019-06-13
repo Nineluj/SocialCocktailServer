@@ -25,9 +25,9 @@ public class UserService {
 		return null;
 	}
 	
-	public User getLoggedInUser(Integer userId) {
-		if (this.userRepository.findById(userId).isPresent()) {
-			return this.userRepository.findById(userId).get();
+	public User findUserById(Integer id) {
+		if (this.userRepository.findById(id).isPresent()) {
+			return this.userRepository.findById(id).get();
 		}
 		return null;
 	}
