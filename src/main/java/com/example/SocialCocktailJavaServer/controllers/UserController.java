@@ -1,5 +1,6 @@
 package com.example.SocialCocktailJavaServer.controllers;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,26 @@ public class UserController {
 		User retrievedUser = this.userService.registerUser(user);
 		if (retrievedUser != null) {
 			session.setAttribute("userId", retrievedUser.getId());
+			return new ResponseEntity(HttpStatus.OK);
+		}
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+	}
+	
+	// Get the currently logged in User.
+	@GetMapping("/api/user")
+	public User getLoggedInUser(HttpSession session, HttpServletResponse response) {
+		if (session.getAttribute("userId") != null) {
+			return this.userService.getLoggedInUser((Integer)session.getAttribute("userId"));
+		}
+		response.setStatus(404);
+		return null;
+	}
+	
+	// Logout the currently logged in User, invalidating the HttpSession.
+	@GetMapping("/api/user/logout")
+	public ResponseEntity logoutUser(HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			session.invalidate();
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
