@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,4 +65,11 @@ public class UserController {
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
+	
+	// Update the currently logged-in User's information
+	@PutMapping("/api/user")
+	public User updateUser(@RequestBody User user) {
+		return this.userService.updateUser(user);
+	}
+	
 }
