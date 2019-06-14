@@ -1,8 +1,7 @@
-package com.example.SocialCocktailJavaServer.repositories;
+package com.boost.SocialCocktailJavaServer.repositories;
 
+import com.boost.SocialCocktailJavaServer.models.Cocktail;
 import org.springframework.data.repository.CrudRepository;
-
-import com.example.SocialCocktailJavaServer.models.Cocktail;
 
 public interface CocktailRepository extends CrudRepository<Cocktail, Integer> {
 	

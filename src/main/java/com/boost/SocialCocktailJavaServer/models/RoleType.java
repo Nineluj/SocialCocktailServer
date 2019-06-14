@@ -1,4 +1,4 @@
-package com.example.SocialCocktailJavaServer.models;
+package com.boost.SocialCocktailJavaServer.models;
 
 public enum RoleType {
 	STANDARD,

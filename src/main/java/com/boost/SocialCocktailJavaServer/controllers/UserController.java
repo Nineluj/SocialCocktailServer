@@ -1,8 +1,9 @@
-package com.example.SocialCocktailJavaServer.controllers;
+package com.boost.SocialCocktailJavaServer.controllers;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.boost.SocialCocktailJavaServer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.SocialCocktailJavaServer.models.User;
-import com.example.SocialCocktailJavaServer.services.UserService;
+import com.boost.SocialCocktailJavaServer.services.*;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController

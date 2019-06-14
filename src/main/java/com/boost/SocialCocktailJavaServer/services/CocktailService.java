@@ -1,10 +1,9 @@
-package com.example.SocialCocktailJavaServer.services;
+package com.boost.SocialCocktailJavaServer.services;
 
+import com.boost.SocialCocktailJavaServer.models.Cocktail;
+import com.boost.SocialCocktailJavaServer.repositories.CocktailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.SocialCocktailJavaServer.models.Cocktail;
-import com.example.SocialCocktailJavaServer.repositories.CocktailRepository;
 
 @Service
 public class CocktailService {
