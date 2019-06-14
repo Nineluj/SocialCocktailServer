@@ -47,7 +47,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>SocialCocktailBackend</mainClass>
+					<mainClass>com.boost.SocialCocktailJavaServer.SocialCocktailBackend</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
