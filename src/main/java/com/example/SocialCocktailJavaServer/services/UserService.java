@@ -1,9 +1,13 @@
 package com.example.SocialCocktailJavaServer.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.SocialCocktailJavaServer.models.Cocktail;
 import com.example.SocialCocktailJavaServer.models.User;
+import com.example.SocialCocktailJavaServer.repositories.CocktailRepository;
 import com.example.SocialCocktailJavaServer.repositories.UserRepository;
 
 @Service
@@ -11,6 +15,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CocktailRepository cocktailRepository;
 	
 	// Authenticate that a correct username password pair was entered.
 	public User authenticateUser(User user) {
@@ -34,5 +41,13 @@ public class UserService {
 	
 	public User updateUser(User user) {
 		return this.userRepository.save(user);
+	}
+	
+	public void addLikedCocktail(Integer cocktailId, Integer userId) {
+		User curUser = this.userRepository.findById(userId).get();
+		List<Cocktail> likedCocktails = curUser.getLikedCocktails();
+		likedCocktails.add(this.cocktailRepository.findById(cocktailId).get());
+		curUser.setLikedCocktails(likedCocktails);
+		this.userRepository.save(curUser);
 	}
 }

@@ -1,9 +1,12 @@
 package com.example.SocialCocktailJavaServer.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -12,6 +15,9 @@ public class User {
 	private RoleType role;
 	private String email;
 	private String phoneNum;
+	
+	@ManyToMany
+	private List<Cocktail> likedCocktails;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +69,14 @@ public class User {
 
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
+	}
+
+	public List<Cocktail> getLikedCocktails() {
+		return likedCocktails;
+	}
+
+	public void setLikedCocktails(List<Cocktail> likedCocktails) {
+		this.likedCocktails = likedCocktails;
 	}
 
 }

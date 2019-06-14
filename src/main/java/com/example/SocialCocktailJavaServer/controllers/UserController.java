@@ -78,4 +78,12 @@ public class UserController {
 		return this.userService.updateUser(user);
 	}
 	
+	// Add the cocktail with the given id to the logged-in User's
+	// liked cocktails.
+	@PostMapping("/api/user/likes/cocktail/{id}")
+	public void addLikedCocktail(@PathVariable("id") Integer id, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			this.userService.addLikedCocktail(id, (Integer)session.getAttribute("userId"));
+		}
+	}
 }
