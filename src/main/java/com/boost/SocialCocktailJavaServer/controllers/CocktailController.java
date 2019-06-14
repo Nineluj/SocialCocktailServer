@@ -5,10 +5,7 @@ import com.boost.SocialCocktailJavaServer.services.CocktailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
@@ -23,5 +20,16 @@ public class CocktailController {
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.CONFLICT);
+	}
+
+	@GetMapping("/api/cocktails/{cocktailId}")
+	public ResponseEntity<Cocktail> findCocktailById(@PathVariable("cocktailId") int cocktailId) {
+		Cocktail response = this.cocktailService.findCocktailById(cocktailId);
+
+		if (response == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
 	}
 }

@@ -17,4 +17,8 @@ public class CocktailService {
 		this.cocktailRepository.save(cocktail);
 		return true;
 	}
+
+	public Cocktail findCocktailById(int cocktailId) {
+		return this.cocktailRepository.findById(cocktailId).orElse(null);
+	}
 }

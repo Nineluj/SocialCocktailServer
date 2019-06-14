@@ -1,5 +1,6 @@
 package com.boost.SocialCocktailJavaServer.models;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,10 +15,13 @@ public class User {
 	@ManyToMany
 	private List<Cocktail> likedCocktails;
 
+	@OneToMany
+	private List<Comment> userComments;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -32,14 +36,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public RoleType getRole() {
@@ -74,4 +70,19 @@ public class User {
 		this.likedCocktails = likedCocktails;
 	}
 
+	public List<Comment> getUserComments() {
+		return userComments;
+	}
+
+	public void setUserComments(List<Comment> userComments) {
+		this.userComments = userComments;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }
