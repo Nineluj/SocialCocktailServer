@@ -1,7 +1,9 @@
 package com.boost.SocialCocktailJavaServer.controllers;
 
+import com.boost.SocialCocktailJavaServer.models.JacksonView;
 import com.boost.SocialCocktailJavaServer.models.User;
 import com.boost.SocialCocktailJavaServer.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
+
+	@JsonView(JacksonView.forUserRequest.class)
 	@PostMapping("/api/users/login")
 	public ResponseEntity authenticateUser(@RequestBody User user, HttpSession session) {
 		if (session.getAttribute("userId") != null) {
@@ -29,7 +32,8 @@ public class UserController {
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
-	
+
+	@JsonView(JacksonView.forUserRequest.class)
 	@PostMapping("/api/users/register")
 	public ResponseEntity registerUser(@RequestBody User user, HttpSession session) {
 		User retrievedUser = this.userService.registerUser(user);
@@ -39,8 +43,9 @@ public class UserController {
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
-	
+
 	// Get the currently logged in User.
+	@JsonView(JacksonView.forUserRequest.class)
 	@GetMapping("/api/user")
 	public ResponseEntity<User> getLoggedInUser(HttpSession session, HttpServletResponse response) {
 		if (session.getAttribute("userId") != null) {
@@ -49,8 +54,9 @@ public class UserController {
 
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	// Logout the currently logged in User, invalidating the HttpSession.
+	@JsonView(JacksonView.forUserRequest.class)
 	@GetMapping("/api/user/logout")
 	public ResponseEntity logoutUser(HttpSession session) {
 		if (session.getAttribute("userId") != null) {
@@ -61,6 +67,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/users/{id}")
+	@JsonView(JacksonView.forUserRequest.class)
 	public ResponseEntity<User> findUserById(@PathVariable Integer id) {
 		User response = this.userService.findUserById(id);
 
@@ -72,6 +79,7 @@ public class UserController {
 	}
 	
 	// Update the currently logged-in User's information
+	@JsonView(JacksonView.forUserRequest.class)
 	@PutMapping("/api/user")
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
 		User response = this.userService.updateUser(user);
@@ -85,6 +93,7 @@ public class UserController {
 	
 	// Add the cocktail with the given id to the logged-in User's
 	// liked cocktails.
+	@JsonView(JacksonView.forUserRequest.class)
 	@PostMapping("/api/user/likes/cocktail/{id}")
 	public void addLikedCocktail(@PathVariable("id") Integer id, HttpSession session) {
 		if (session.getAttribute("userId") != null) {

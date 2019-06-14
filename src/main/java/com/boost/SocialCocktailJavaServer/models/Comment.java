@@ -1,18 +1,29 @@
 package com.boost.SocialCocktailJavaServer.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(JacksonView.freeContext.class)
+    private int id;
+
+    @JsonView(JacksonView.freeContext.class)
     private String text;
+    @JsonView(JacksonView.freeContext.class)
     private Date created;
 
     @ManyToOne
+    @JsonView(JacksonView.withUserContext.class)
     private User author;
 
     @ManyToOne
+    @JsonView(JacksonView.withCocktailContext.class)
     private Cocktail cocktail;
 
     public String getText() {

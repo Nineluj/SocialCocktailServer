@@ -1,25 +1,35 @@
 package com.boost.SocialCocktailJavaServer.models;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class User {
+	@JsonView(JacksonView.freeContext.class)
 	private String username;
+	@JsonView(JacksonView.freeContext.class)
 	private String password;
+	@JsonView(JacksonView.freeContext.class)
 	private RoleType role;
+	@JsonView(JacksonView.freeContext.class)
 	private String email;
+	@JsonView(JacksonView.freeContext.class)
 	private String phoneNum;
 	
 	@ManyToMany
+	@JsonView(JacksonView.withCocktailContext.class)
 	private List<Cocktail> likedCocktails;
 
 	@OneToMany
+	@JsonView(JacksonView.withCommentContext.class)
 	private List<Comment> userComments;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(JacksonView.freeContext.class)
 	private int id;
 
 	public String getUsername() {
