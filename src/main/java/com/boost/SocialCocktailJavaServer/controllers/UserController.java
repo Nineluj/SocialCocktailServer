@@ -1,21 +1,14 @@
 package com.boost.SocialCocktailJavaServer.controllers;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.boost.SocialCocktailJavaServer.models.User;
+import com.boost.SocialCocktailJavaServer.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.boost.SocialCocktailJavaServer.services.*;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
@@ -49,12 +42,12 @@ public class UserController {
 	
 	// Get the currently logged in User.
 	@GetMapping("/api/user")
-	public User getLoggedInUser(HttpSession session, HttpServletResponse response) {
+	public ResponseEntity<User> getLoggedInUser(HttpSession session, HttpServletResponse response) {
 		if (session.getAttribute("userId") != null) {
-			return this.userService.findUserById((Integer)session.getAttribute("userId"));
+			return new ResponseEntity<>(this.userService.findUserById((Integer)session.getAttribute("userId")), HttpStatus.OK);
 		}
-		response.setStatus(404);
-		return null;
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	// Logout the currently logged in User, invalidating the HttpSession.
@@ -68,14 +61,26 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/users/{id}")
-	public User findUserById(@PathVariable Integer id) {
-		return this.userService.findUserById(id);
+	public ResponseEntity<User> findUserById(@PathVariable Integer id) {
+		User response = this.userService.findUserById(id);
+
+		if (response == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
 	}
 	
 	// Update the currently logged-in User's information
 	@PutMapping("/api/user")
-	public User updateUser(@RequestBody User user) {
-		return this.userService.updateUser(user);
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
+		User response = this.userService.updateUser(user);
+
+		if (response == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}
 	}
 	
 	// Add the cocktail with the given id to the logged-in User's

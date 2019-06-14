@@ -1,10 +1,9 @@
 package com.boost.SocialCocktailJavaServer.models;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Cocktail {
