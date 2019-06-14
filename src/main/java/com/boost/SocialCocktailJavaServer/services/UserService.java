@@ -1,15 +1,23 @@
-package com.boost.SocialCocktailJavaServer.services;
+package com.example.SocialCocktailJavaServer.services;
 
-import com.boost.SocialCocktailJavaServer.models.User;
-import com.boost.SocialCocktailJavaServer.repositories.UserRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.SocialCocktailJavaServer.models.Cocktail;
+import com.example.SocialCocktailJavaServer.models.User;
+import com.example.SocialCocktailJavaServer.repositories.CocktailRepository;
+import com.example.SocialCocktailJavaServer.repositories.UserRepository;
 
 @Service
 public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CocktailRepository cocktailRepository;
 	
 	// Authenticate that a correct username password pair was entered.
 	public User authenticateUser(User user) {
@@ -24,10 +32,22 @@ public class UserService {
 		return null;
 	}
 	
-	public User getLoggedInUser(Integer userId) {
-		if (this.userRepository.findById(userId).isPresent()) {
-			return this.userRepository.findById(userId).get();
+	public User findUserById(Integer id) {
+		if (this.userRepository.findById(id).isPresent()) {
+			return this.userRepository.findById(id).get();
 		}
 		return null;
+	}
+	
+	public User updateUser(User user) {
+		return this.userRepository.save(user);
+	}
+	
+	public void addLikedCocktail(Integer cocktailId, Integer userId) {
+		User curUser = this.userRepository.findById(userId).get();
+		List<Cocktail> likedCocktails = curUser.getLikedCocktails();
+		likedCocktails.add(this.cocktailRepository.findById(cocktailId).get());
+		curUser.setLikedCocktails(likedCocktails);
+		this.userRepository.save(curUser);
 	}
 }

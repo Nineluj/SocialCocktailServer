@@ -1,4 +1,4 @@
-package com.boost.SocialCocktailJavaServer.controllers;
+package com.example.SocialCocktailJavaServer.controllers;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.boost.SocialCocktailJavaServer.models.User;
-import com.boost.SocialCocktailJavaServer.services.UserService;
+import com.example.SocialCocktailJavaServer.models.User;
+import com.example.SocialCocktailJavaServer.services.UserService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 @RestController
@@ -48,7 +51,7 @@ public class UserController {
 	@GetMapping("/api/user")
 	public User getLoggedInUser(HttpSession session, HttpServletResponse response) {
 		if (session.getAttribute("userId") != null) {
-			return this.userService.getLoggedInUser((Integer)session.getAttribute("userId"));
+			return this.userService.findUserById((Integer)session.getAttribute("userId"));
 		}
 		response.setStatus(404);
 		return null;
@@ -62,5 +65,25 @@ public class UserController {
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+	}
+	
+	@GetMapping("/api/users/{id}")
+	public User findUserById(@PathVariable Integer id) {
+		return this.userService.findUserById(id);
+	}
+	
+	// Update the currently logged-in User's information
+	@PutMapping("/api/user")
+	public User updateUser(@RequestBody User user) {
+		return this.userService.updateUser(user);
+	}
+	
+	// Add the cocktail with the given id to the logged-in User's
+	// liked cocktails.
+	@PostMapping("/api/user/likes/cocktail/{id}")
+	public void addLikedCocktail(@PathVariable("id") Integer id, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			this.userService.addLikedCocktail(id, (Integer)session.getAttribute("userId"));
+		}
 	}
 }
