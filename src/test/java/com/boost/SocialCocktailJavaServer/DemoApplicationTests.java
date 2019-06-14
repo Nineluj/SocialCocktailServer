@@ -1,4 +1,4 @@
-package com.example.SocialCocktailJavaServer;
+package com.boost.SocialCocktailJavaServer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
