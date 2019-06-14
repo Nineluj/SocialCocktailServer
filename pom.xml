@@ -11,8 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>SocialCocktailJavaServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>SocialCocktailBackend</name>
+	<description>Backend for SocialCocktail project</description>
 
 	<properties>
 		<java.version>1.8</java.version>
