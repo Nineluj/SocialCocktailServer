@@ -9,12 +9,16 @@ import java.util.List;
 
 @Service
 public class CommentService {
-//    @Autowired
-//
-//    private CommentRepository commentRepository;
+    @Autowired
+
+    private CommentRepository commentRepository;
 //    private CocktailService
 //
 //    public List<Comment> getCommentsForCocktail(int cocktailId) {
 //        return null;
 //    }
+    
+    public List<Comment> getRecentComments(Integer numPosts) {
+    	return this.commentRepository.getRecentComments(numPosts);
+    }
 }
