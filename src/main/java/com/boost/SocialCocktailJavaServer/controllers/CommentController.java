@@ -37,4 +37,9 @@ public class CommentController {
 		
 		return new ResponseEntity<Comment>(this.commentService.createComment(cocktailId, (Integer) session.getAttribute("userId"), comment), HttpStatus.OK);
 	}
+	
+	@GetMapping("/api/cocktail/{cocktailId}/comments")
+	public List<Comment> findCommentsByCocktailId(@PathVariable("cocktailId") Integer cocktailId) {
+		return this.commentService.findCommentsByCocktailId(cocktailId);
+	}
 }

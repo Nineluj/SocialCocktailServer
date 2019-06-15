@@ -36,4 +36,8 @@ public class CommentService {
 		comment.setCocktail(this.cocktailRepository.findById(cocktailId).get()); //unsafe get call for now
 		return this.commentRepository.save(comment);
     }
+    
+    public List<Comment> findCommentsByCocktailId(Integer cocktailId) {
+    	return this.commentRepository.findCommentsByCocktail_Id(cocktailId);
+    }
 }
