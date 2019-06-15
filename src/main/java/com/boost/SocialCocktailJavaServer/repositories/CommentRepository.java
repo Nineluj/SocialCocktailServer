@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
 	
-    @Query(value = "SELECT * FROM Comment as comment ORDER BY comment.created DESC LIMIT :num_posts", nativeQuery = true)
+    @Query(value = "SELECT * FROM comment as comment ORDER BY comment.created DESC LIMIT :num_posts", nativeQuery = true)
 	public List<Comment> getRecentComments(@Param("num_posts") Integer numPosts);
     
     public List<Comment> findCommentsByCocktail_Id(@Param("cocktail_id") Integer cocktailId);
