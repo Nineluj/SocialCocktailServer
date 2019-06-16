@@ -27,6 +27,12 @@ public class User {
 	@JsonView(JacksonView.withCommentContext.class)
 	private List<Comment> userComments;
 
+//	@OneToMany(mappedBy = "follower")
+//	private List<UserFollowRelationship> following;
+//
+//	@OneToMany(mappedBy = "followed")
+//	private List<UserFollowRelationship> followers;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonView(JacksonView.freeContext.class)

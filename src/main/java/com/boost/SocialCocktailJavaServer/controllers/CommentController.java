@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.boost.SocialCocktailJavaServer.models.JacksonView;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,15 @@ import com.boost.SocialCocktailJavaServer.services.CommentService;
 public class CommentController {
 	@Autowired
 	private CommentService commentService;
-	
+
 	@GetMapping("/api/comments/recent/{numPosts}")
+	@JsonView(JacksonView.forCommentRequest.class)
 	public List<Comment> getRecentComments(@PathVariable("numPosts") Integer numPosts) {
 		return this.commentService.getRecentComments(numPosts);
 	}
 	
 	@PostMapping("/api/cocktail/{cocktailId}/comments")
+	@JsonView(JacksonView.forCommentRequest.class)
 	public ResponseEntity<Comment> createComment(@PathVariable("cocktailId") Integer cocktailId, @RequestBody Comment comment, HttpSession session) {
 		if (session.getAttribute("userId") == null) {
 			return new ResponseEntity<Comment>(HttpStatus.UNAUTHORIZED);
@@ -37,8 +41,9 @@ public class CommentController {
 		
 		return new ResponseEntity<Comment>(this.commentService.createComment(cocktailId, (Integer) session.getAttribute("userId"), comment), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/api/cocktail/{cocktailId}/comments")
+	@JsonView(JacksonView.forCommentRequest.class)
 	public List<Comment> findCommentsByCocktailId(@PathVariable("cocktailId") Integer cocktailId) {
 		return this.commentService.findCommentsByCocktailId(cocktailId);
 	}

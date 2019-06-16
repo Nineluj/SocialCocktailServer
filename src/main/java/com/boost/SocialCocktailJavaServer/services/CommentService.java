@@ -21,12 +21,6 @@ public class CommentService {
     @Autowired
     private CocktailRepository cocktailRepository;
     
-//    private CocktailService
-//
-//    public List<Comment> getCommentsForCocktail(int cocktailId) {
-//        return null;
-//    }
-    
     public List<Comment> getRecentComments(Integer numPosts) {
     	return this.commentRepository.getRecentComments(numPosts);
     }

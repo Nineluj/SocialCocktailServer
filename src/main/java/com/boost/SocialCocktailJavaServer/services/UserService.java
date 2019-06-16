@@ -44,10 +44,17 @@ public class UserService {
 	}
 	
 	public void addLikedCocktail(Integer cocktailId, Integer userId) {
-		User curUser = this.userRepository.findById(userId).get();
-		List<Cocktail> likedCocktails = curUser.getLikedCocktails();
-		likedCocktails.add(this.cocktailRepository.findById(cocktailId).get());
-		curUser.setLikedCocktails(likedCocktails);
-		this.userRepository.save(curUser);
+		User user = this.userRepository.findById(userId).get();
+		Cocktail cocktail = this.cocktailRepository.findById(cocktailId).get();
+
+		List<Cocktail> likedCocktails = user.getLikedCocktails();
+		likedCocktails.add(cocktail);
+		user.setLikedCocktails(likedCocktails);
+		this.userRepository.save(user);
+
+//		List<User> cocktailLikers = cocktail.getUsersLikedBy();
+//		cocktailLikers.add(user);
+//		cocktail.setUsersLikedBy(cocktailLikers);
+//		this.cocktailRepository.save(cocktail);
 	}
 }
