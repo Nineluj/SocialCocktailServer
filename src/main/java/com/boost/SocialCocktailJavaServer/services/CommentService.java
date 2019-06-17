@@ -32,7 +32,8 @@ public class CommentService {
     }
     
     public List<Comment> getComments(Integer numPosts, Integer userId) {
-    	return this.userRepository.findById(userId).get().getUserComments().subList(0, numPosts);
+    	List<Comment> comments = this.userRepository.findById(userId).get().getUserComments();
+    	return comments.subList(0, Math.min(comments.size(), 3));
     }
     
     public Comment createComment(Integer cocktailId, Integer userId, Comment comment) {
