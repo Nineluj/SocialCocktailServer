@@ -12,6 +12,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(JacksonView.freeContext.class)
     private int id;
+    
+    @JsonView(JacksonView.freeContext.class)
+    private String title;
 
     @JsonView(JacksonView.freeContext.class)
     private String text;
@@ -26,7 +29,15 @@ public class Comment {
     @JsonView(JacksonView.withCocktailContext.class)
     private Cocktail cocktail;
 
-    public String getText() {
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getText() {
         return text;
     }
 
