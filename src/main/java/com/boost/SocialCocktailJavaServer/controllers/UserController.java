@@ -111,12 +111,22 @@ public class UserController {
 		return this.userService.getFollowers((Integer)session.getAttribute("userId"));
 	}
 	
+	@GetMapping("/api/user/followers/{userId}")
+	public List<User> getFollowers(@PathVariable("userId") Integer userId) {
+		return this.userService.getFollowers(userId);
+	}
+	
 	@GetMapping("/api/user/following")
 	public List<User> getFollowing(HttpSession session) {
 		if (session.getAttribute("userId") == null) {
 			return null;
 		}
 		return this.userService.getFollowing((Integer)session.getAttribute("userId"));
+	}
+	
+	@GetMapping("/api/user/following/{userId}")
+	public List<User> getFollowing(@PathVariable("userId") Integer userId) {
+		return this.userService.getFollowing(userId);
 	}
 	
 	@PostMapping("/api/user/following/{userFollowingId}")
