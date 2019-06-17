@@ -27,6 +27,14 @@ public class CommentService {
     	return this.commentRepository.getRecentComments(numPosts);
     }
     
+    public List<Comment> getFollowingComments(Integer numPosts, Integer userId) {
+    	return this.commentRepository.getFollowingComments(numPosts, userId);
+    }
+    
+    public List<Comment> getComments(Integer numPosts, Integer userId) {
+    	return this.userRepository.findById(userId).get().getUserComments().subList(0, numPosts);
+    }
+    
     public Comment createComment(Integer cocktailId, Integer userId, Comment comment) {
 //		comment.setAuthor(this.userRepository.findById(userId).get());
 //		comment.setCocktail(this.cocktailRepository.findById(cocktailId).get()); //unsafe get call for now

@@ -32,6 +32,24 @@ public class CommentController {
 		return this.commentService.getRecentComments(numPosts);
 	}
 	
+	@GetMapping("/api/comments/following/{numPosts}")
+	@JsonView(JacksonView.forCommentRequest.class)
+	public List<Comment> getFollowingComments(@PathVariable("numPosts") Integer numPosts, HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return null;
+		}
+		return this.commentService.getFollowingComments(numPosts, (Integer)session.getAttribute("userId"));
+	}
+	
+	@GetMapping("/api/comments/{numPosts}")
+	@JsonView(JacksonView.forCommentRequest.class)
+	public List<Comment> getComments(@PathVariable("numPosts") Integer numPosts, HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return null;
+		}
+		return this.commentService.getComments(numPosts, (Integer)session.getAttribute("userId"));
+	}
+	
 	@PostMapping("/api/cocktail/{cocktailId}/comments")
 	@JsonView(JacksonView.forCommentRequest.class)
 	public ResponseEntity<Comment> createComment(@PathVariable("cocktailId") Integer cocktailId, @RequestBody Comment comment, HttpSession session) {

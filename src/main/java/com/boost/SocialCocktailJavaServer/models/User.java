@@ -21,12 +21,12 @@ public class User {
 	private String phoneNum;
 	
 	@ManyToMany
-	@JsonView(JacksonView.withCocktailContext.class)
+	//@JsonView(JacksonView.withCocktailContext.class)
 	@JsonIgnore
 	private List<Cocktail> likedCocktails;
 
 	@OneToMany
-	@JsonView(JacksonView.withCommentContext.class)
+	//@JsonView(JacksonView.withCommentContext.class)
 	@JsonIgnore
 	private List<Comment> userComments;
 
