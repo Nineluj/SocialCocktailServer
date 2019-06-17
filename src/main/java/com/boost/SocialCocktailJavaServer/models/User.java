@@ -22,10 +22,12 @@ public class User {
 	
 	@ManyToMany
 	@JsonView(JacksonView.withCocktailContext.class)
+	@JsonIgnore
 	private List<Cocktail> likedCocktails;
 
 	@OneToMany
 	@JsonView(JacksonView.withCommentContext.class)
+	@JsonIgnore
 	private List<Comment> userComments;
 
 	
