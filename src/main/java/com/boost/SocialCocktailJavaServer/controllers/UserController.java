@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -100,4 +102,30 @@ public class UserController {
 			this.userService.addLikedCocktail(id, (Integer)session.getAttribute("userId"));
 		}
 	}
+	
+	@GetMapping("/api/user/followers")
+	public List<User> getFollowers(HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return null;
+		}
+		return this.userService.getFollowers((Integer)session.getAttribute("userId"));
+	}
+	
+	@GetMapping("/api/user/following")
+	public List<User> getFollowing(HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return null;
+		}
+		return this.userService.getFollowing((Integer)session.getAttribute("userId"));
+	}
+	
+	@PostMapping("/api/user/following/{userFollowingId}")
+	public List<User> addFollowing(@PathVariable("userFollowingId") Integer userFollowingId, HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return null;
+		}
+		return this.userService.addFollowing(userFollowingId, (Integer)session.getAttribute("userId"));
+	}
+	
+	
 }

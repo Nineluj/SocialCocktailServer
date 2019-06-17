@@ -57,4 +57,37 @@ public class UserService {
 //		cocktail.setUsersLikedBy(cocktailLikers);
 //		this.cocktailRepository.save(cocktail);
 	}
+
+	public List<User> getFollowers(Integer userId) {
+		return this.userRepository.findById(userId).get().getFollowers();
+	}
+	
+	public List<User> getFollowing(Integer userId) {
+		return this.userRepository.findById(userId).get().getFollowing();
+	}
+
+	public List<User> addFollowing(Integer userFollowingId, Integer userId) {
+		User followingUser;
+		
+		if (this.userRepository.findById(userFollowingId).isEmpty()) {
+			return null;
+		}
+		followingUser = this.userRepository.findById(userFollowingId).get();
+		User curUser = this.userRepository.findById(userId).get();
+		
+		// Add the new person to the currently logged in User's following list.
+		List<User> following = curUser.getFollowing();
+		following.add(followingUser);
+		curUser.setFollowing(following);
+		
+		// Add the currently logged in person to the new person's followers list.
+		List<User> followers = followingUser.getFollowers();
+		followers.add(curUser);
+		followingUser.setFollowers(followers);
+		
+		this.userRepository.save(curUser);
+		this.userRepository.save(followingUser);
+		
+		return curUser.getFollowing();
+	}
 }

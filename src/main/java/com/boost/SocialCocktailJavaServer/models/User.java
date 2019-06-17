@@ -1,6 +1,7 @@
 package com.boost.SocialCocktailJavaServer.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -27,11 +28,14 @@ public class User {
 	@JsonView(JacksonView.withCommentContext.class)
 	private List<Comment> userComments;
 
-//	@OneToMany(mappedBy = "follower")
-//	private List<UserFollowRelationship> following;
-//
-//	@OneToMany(mappedBy = "followed")
-//	private List<UserFollowRelationship> followers;
+	
+	@ManyToMany
+	@JsonIgnore
+	private List<User> following;
+	
+	@ManyToMany
+	@JsonIgnore
+	private List<User> followers;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,5 +104,21 @@ public class User {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public List<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
+
+	public List<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
 	}
 }
