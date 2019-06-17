@@ -26,8 +26,9 @@ public class CommentService {
     }
     
     public Comment createComment(Integer cocktailId, Integer userId, Comment comment) {
-		comment.setAuthor(this.userRepository.findById((Integer) userId).get());
+		comment.setAuthor(this.userRepository.findById(userId).get());
 		comment.setCocktail(this.cocktailRepository.findById(cocktailId).get()); //unsafe get call for now
+		this.userRepository.save(this.userRepository.findById(userId).get());
 		return this.commentRepository.save(comment);
     }
     
