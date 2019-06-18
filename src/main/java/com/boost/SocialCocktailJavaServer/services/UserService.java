@@ -12,18 +12,18 @@ import java.util.List;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private CocktailRepository cocktailRepository;
-	
+
 	// Authenticate that a correct username password pair was entered.
 	public User authenticateUser(User user) {
 		return this.userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
 	}
-	
+
 	// Register a user.
 	public User registerUser(User user) {
 		if (this.userRepository.findByUsername(user.getUsername()) == null) {
@@ -31,18 +31,23 @@ public class UserService {
 		}
 		return null;
 	}
-	
+
 	public User findUserById(Integer id) {
 		if (this.userRepository.findById(id).isPresent()) {
 			return this.userRepository.findById(id).get();
 		}
 		return null;
 	}
-	
+
 	public User updateUser(User user) {
-		return this.userRepository.save(user);
+		User toUpdate = this.userRepository.findByUsername(user.getUsername());
+		toUpdate.setEmail(user.getEmail());
+		toUpdate.setPhoneNum(user.getPhoneNum());
+		this.userRepository.save(toUpdate);
+
+		return toUpdate;
 	}
-	
+
 	public void addLikedCocktail(Integer cocktailId, Integer userId) {
 		User user = this.userRepository.findById(userId).get();
 		Cocktail cocktail = this.cocktailRepository.findById(cocktailId).get();
@@ -61,34 +66,39 @@ public class UserService {
 	public List<User> getFollowers(Integer userId) {
 		return this.userRepository.findById(userId).get().getFollowers();
 	}
-	
+
 	public List<User> getFollowing(Integer userId) {
 		return this.userRepository.findById(userId).get().getFollowing();
 	}
 
-	public List<User> addFollowing(Integer userFollowingId, Integer userId) {
+	public User addFollowing(Integer userFollowingId, Integer userId) {
 		User followingUser;
-		
-		if (this.userRepository.findById(userFollowingId).isEmpty()) {
+
+		if (!this.userRepository.existsById(userFollowingId)) {
 			return null;
 		}
 		followingUser = this.userRepository.findById(userFollowingId).get();
 		User curUser = this.userRepository.findById(userId).get();
-		
+
+		if (curUser.getFollowing().contains(followingUser)) {
+			return followingUser;
+		}
+
+
 		// Add the new person to the currently logged in User's following list.
 		List<User> following = curUser.getFollowing();
 		following.add(followingUser);
 		curUser.setFollowing(following);
-		
+
 		// Add the currently logged in person to the new person's followers list.
 		List<User> followers = followingUser.getFollowers();
 		followers.add(curUser);
 		followingUser.setFollowers(followers);
-		
+
 		this.userRepository.save(curUser);
 		this.userRepository.save(followingUser);
-		
-		return curUser.getFollowing();
+
+		return followingUser;
 	}
 
 	public List<Cocktail> getLikedCocktails(Integer userId, Integer numLikes) {

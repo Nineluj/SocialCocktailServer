@@ -136,7 +136,7 @@ public class UserController {
 	
 	@PostMapping("/api/user/following/{userFollowingId}")
 	@JsonView(JacksonView.forUserRequest.class)
-	public List<User> addFollowing(@PathVariable("userFollowingId") Integer userFollowingId, HttpSession session) {
+	public User addFollowing(@PathVariable("userFollowingId") Integer userFollowingId, HttpSession session) {
 		if (session.getAttribute("userId") == null) {
 			return null;
 		}
