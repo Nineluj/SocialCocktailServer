@@ -2,6 +2,7 @@ package com.boost.SocialCocktailJavaServer.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 public class User {
 	@JsonView(JacksonView.freeContext.class)
 	private String username;
-	@JsonView(JacksonView.freeContext.class)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	@JsonView(JacksonView.freeContext.class)
 	private RoleType role;
@@ -54,6 +55,7 @@ public class User {
 		this.username = username;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
