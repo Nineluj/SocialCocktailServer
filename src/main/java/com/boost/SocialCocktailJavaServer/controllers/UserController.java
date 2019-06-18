@@ -1,5 +1,6 @@
 package com.boost.SocialCocktailJavaServer.controllers;
 
+import com.boost.SocialCocktailJavaServer.models.Cocktail;
 import com.boost.SocialCocktailJavaServer.models.JacksonView;
 import com.boost.SocialCocktailJavaServer.models.User;
 import com.boost.SocialCocktailJavaServer.services.UserService;
@@ -104,6 +105,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/user/followers")
+	@JsonView(JacksonView.forUserRequest.class)
 	public List<User> getFollowers(HttpSession session) {
 		if (session.getAttribute("userId") == null) {
 			return null;
@@ -112,11 +114,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/user/followers/{userId}")
+	@JsonView(JacksonView.forUserRequest.class)
 	public List<User> getFollowers(@PathVariable("userId") Integer userId) {
 		return this.userService.getFollowers(userId);
 	}
 	
 	@GetMapping("/api/user/following")
+	@JsonView(JacksonView.forUserRequest.class)
 	public List<User> getFollowing(HttpSession session) {
 		if (session.getAttribute("userId") == null) {
 			return null;
@@ -125,16 +129,24 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/user/following/{userId}")
+	@JsonView(JacksonView.forUserRequest.class)
 	public List<User> getFollowing(@PathVariable("userId") Integer userId) {
 		return this.userService.getFollowing(userId);
 	}
 	
 	@PostMapping("/api/user/following/{userFollowingId}")
+	@JsonView(JacksonView.forUserRequest.class)
 	public List<User> addFollowing(@PathVariable("userFollowingId") Integer userFollowingId, HttpSession session) {
 		if (session.getAttribute("userId") == null) {
 			return null;
 		}
 		return this.userService.addFollowing(userFollowingId, (Integer)session.getAttribute("userId"));
+	}
+	
+	@GetMapping("/api/users/{userId}/likes/{numLikes}")
+	@JsonView(JacksonView.forCocktailRequest.class)
+	public List<Cocktail> getLikedCocktails(@PathVariable("userId") Integer userId, @PathVariable("numLikes") Integer numLikes) {
+		return this.userService.getLikedCocktails(userId, numLikes);
 	}
 	
 	

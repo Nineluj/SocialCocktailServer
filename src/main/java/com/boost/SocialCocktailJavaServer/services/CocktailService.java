@@ -35,11 +35,16 @@ public class CocktailService {
 				.map(user -> this.cocktailRepository.findById(cocktailId)
 						.map(cocktail -> {
 							List<User> currentLikes = cocktail.getUsersLikedBy();
+							List<Cocktail> currentLikesUser = user.getLikedCocktails();
 
 							if (!currentLikes.contains(user)) {
 								currentLikes.add(user);
 								cocktail.setUsersLikedBy(currentLikes);
 								this.cocktailRepository.save(cocktail);
+								
+								currentLikesUser.add(cocktail);
+								user.setLikedCocktails(currentLikesUser);
+								this.userRepository.save(user);
 							}
 
 							return true;

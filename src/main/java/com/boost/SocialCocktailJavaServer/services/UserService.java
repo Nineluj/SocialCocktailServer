@@ -90,4 +90,10 @@ public class UserService {
 		
 		return curUser.getFollowing();
 	}
+
+	public List<Cocktail> getLikedCocktails(Integer userId, Integer numLikes) {
+		List<Cocktail> cocktails = this.userRepository.findById(userId).get().getLikedCocktails();
+		System.out.println(cocktails.size());
+		return cocktails.subList(0, Math.min(cocktails.size(), numLikes));
+	}
 }

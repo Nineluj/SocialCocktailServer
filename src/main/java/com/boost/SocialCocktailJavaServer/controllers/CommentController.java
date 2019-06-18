@@ -50,6 +50,12 @@ public class CommentController {
 		return this.commentService.getComments(numPosts, (Integer)session.getAttribute("userId"));
 	}
 	
+	@GetMapping("/api/user/{userId}/comments/{numPosts}")
+	@JsonView(JacksonView.forCommentRequest.class)
+	public List<Comment> getCommentsByUserId(@PathVariable("userId") Integer userId, @PathVariable("numPosts") Integer numPosts) {
+		return this.commentService.getComments(numPosts, userId);
+	}
+	
 	@PostMapping("/api/cocktail/{cocktailId}/comments")
 	@JsonView(JacksonView.forCommentRequest.class)
 	public ResponseEntity<Comment> createComment(@PathVariable("cocktailId") Integer cocktailId, @RequestBody Comment comment, HttpSession session) {

@@ -32,10 +32,12 @@ public class User {
 
 	
 	@ManyToMany
+	//@JsonView(JacksonView.withUserContext.class)
 	@JsonIgnore
 	private List<User> following;
 	
 	@ManyToMany
+	//@JsonView(JacksonView.withUserContext.class)
 	@JsonIgnore
 	private List<User> followers;
 
