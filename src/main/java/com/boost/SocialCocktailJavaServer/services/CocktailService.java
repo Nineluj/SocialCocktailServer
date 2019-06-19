@@ -33,6 +33,7 @@ public class CocktailService {
 			glass.setCocktails(cocktails);
 			cocktail.setGlassType(glass);
 			this.glassRepository.save(glass);
+			this.cocktailRepository.save(cocktail);
 			return true;
 			
 		}

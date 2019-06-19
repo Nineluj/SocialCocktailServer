@@ -15,9 +15,12 @@ import javax.persistence.OneToMany;
 public class Glass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(JacksonView.freeContext.class)
     int id;
 
+	@JsonView(JacksonView.freeContext.class)
     private String name;
+	@JsonView(JacksonView.freeContext.class)
     private String description;
     
     @OneToMany
