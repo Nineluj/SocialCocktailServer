@@ -11,7 +11,7 @@ public class Bartender extends User {
 
     private String barName;
     private String supervisorName;
-    private String supervisorTelephone;
+    private String supervisorPhone;
 
     public boolean isVerified() {
         return verified;
@@ -37,11 +37,11 @@ public class Bartender extends User {
         this.supervisorName = supervisorName;
     }
 
-    public String getSupervisorTelephone() {
-        return supervisorTelephone;
+    public String getSupervisorPhone() {
+        return supervisorPhone;
     }
 
-    public void setSupervisorTelephone(String supervisorTelephone) {
-        this.supervisorTelephone = supervisorTelephone;
+    public void setSupervisorPhone(String supervisorPhone) {
+        this.supervisorPhone = supervisorPhone;
     }
 }
