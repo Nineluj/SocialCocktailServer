@@ -22,6 +22,7 @@ public class CocktailController {
 	private CocktailService cocktailService;
 
 	@PostMapping("/api/cocktails")
+	@JsonView(JacksonView.forCocktailRequest.class)
 	public ResponseEntity<Cocktail> createCocktail(@RequestParam(value="glassType") String glassType, @RequestBody Cocktail cocktail) {
 		Cocktail newCocktail = this.cocktailService.createCocktail(cocktail, glassType);
 		if (newCocktail != null) {

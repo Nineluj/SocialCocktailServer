@@ -30,7 +30,7 @@ public class Cocktail {
 	private Glass glassType;
 	
 	@OneToMany
-	@JsonView(JacksonView.withCocktailContext.class)
+	@JsonView(JacksonView.withTipContext.class)
 	private List<Tip> tips;
 
 	public Cocktail() { }
