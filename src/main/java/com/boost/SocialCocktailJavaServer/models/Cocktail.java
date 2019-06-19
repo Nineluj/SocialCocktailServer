@@ -24,6 +24,10 @@ public class Cocktail {
 	@ManyToMany
 	@JsonView(JacksonView.withUserContext.class)
 	private List<User> usersLikedBy = new ArrayList<>();
+	
+	@ManyToOne
+	@JsonView(JacksonView.freeContext.class)
+	private Glass glassType;
 
 	public Cocktail() { }
 
@@ -57,5 +61,13 @@ public class Cocktail {
 
 	public void setUsersLikedBy(List<User> usersLikedBy) {
 		this.usersLikedBy = usersLikedBy;
+	}
+
+	public Glass getGlassType() {
+		return glassType;
+	}
+
+	public void setGlassType(Glass glassType) {
+		this.glassType = glassType;
 	}
 }

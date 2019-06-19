@@ -21,8 +21,8 @@ public class CocktailController {
 	private CocktailService cocktailService;
 
 	@PostMapping("/api/cocktails")
-	public ResponseEntity createCocktail(@RequestBody Cocktail cocktail) {
-		if (this.cocktailService.createCocktail(cocktail)) {
+	public ResponseEntity createCocktail(@RequestParam(value="glassType") String glassType, @RequestBody Cocktail cocktail) {
+		if (this.cocktailService.createCocktail(cocktail, glassType)) {
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.CONFLICT);

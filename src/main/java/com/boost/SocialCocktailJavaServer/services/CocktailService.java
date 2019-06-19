@@ -1,9 +1,11 @@
 package com.boost.SocialCocktailJavaServer.services;
 
 import com.boost.SocialCocktailJavaServer.models.Cocktail;
+import com.boost.SocialCocktailJavaServer.models.Glass;
 import com.boost.SocialCocktailJavaServer.models.User;
 import com.boost.SocialCocktailJavaServer.repositories.CocktailRepository;
 import com.boost.SocialCocktailJavaServer.repositories.CommentRepository;
+import com.boost.SocialCocktailJavaServer.repositories.GlassRepository;
 import com.boost.SocialCocktailJavaServer.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,23 @@ public class CocktailService {
 	private CocktailRepository cocktailRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired GlassRepository glassRepository;
 
-	public boolean createCocktail(Cocktail cocktail) {
+	public boolean createCocktail(Cocktail cocktail, String glassType) {
 		if (this.cocktailRepository.existsById(cocktail.getId())) {
 			return false;
+		}
+		if (this.glassRepository.findByName(glassType).isPresent()) {
+			this.cocktailRepository.save(cocktail);
+			Glass glass = this.glassRepository.findByName(glassType).get();
+			List<Cocktail> cocktails = glass.getCocktails();
+			cocktails.add(cocktail);
+			glass.setCocktails(cocktails);
+			cocktail.setGlassType(glass);
+			this.glassRepository.save(glass);
+			this.cocktailRepository.save(cocktail);
+			return true;
+			
 		}
 		this.cocktailRepository.save(cocktail);
 		return true;
