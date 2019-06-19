@@ -55,4 +55,6 @@ public class Glass {
 		this.description = description;
 		this.cocktails = new ArrayList<>();
 	}
+
+	public Glass() {}
 }
