@@ -21,9 +21,9 @@ public class CocktailService {
 	private UserRepository userRepository;
 	@Autowired GlassRepository glassRepository;
 
-	public boolean createCocktail(Cocktail cocktail, String glassType) {
+	public Cocktail createCocktail(Cocktail cocktail, String glassType) {
 		if (this.cocktailRepository.existsById(cocktail.getId())) {
-			return false;
+			return this.cocktailRepository.findById(cocktail.getId()).get();
 		}
 		if (this.glassRepository.findByName(glassType).isPresent()) {
 			this.cocktailRepository.save(cocktail);
@@ -34,11 +34,11 @@ public class CocktailService {
 			cocktail.setGlassType(glass);
 			this.glassRepository.save(glass);
 			this.cocktailRepository.save(cocktail);
-			return true;
+			return cocktail;
 			
 		}
 		this.cocktailRepository.save(cocktail);
-		return true;
+		return cocktail;
 	}
 
 	public Cocktail findCocktailById(int cocktailId) {

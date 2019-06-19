@@ -21,11 +21,12 @@ public class CocktailController {
 	private CocktailService cocktailService;
 
 	@PostMapping("/api/cocktails")
-	public ResponseEntity createCocktail(@RequestParam(value="glassType") String glassType, @RequestBody Cocktail cocktail) {
-		if (this.cocktailService.createCocktail(cocktail, glassType)) {
-			return new ResponseEntity(HttpStatus.OK);
+	public ResponseEntity<Cocktail> createCocktail(@RequestParam(value="glassType") String glassType, @RequestBody Cocktail cocktail) {
+		Cocktail newCocktail = this.cocktailService.createCocktail(cocktail, glassType);
+		if (newCocktail != null) {
+			return new ResponseEntity<>(newCocktail, HttpStatus.OK);
 		}
-		return new ResponseEntity(HttpStatus.CONFLICT);
+		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 
 	@GetMapping("/api/cocktails/{cocktailId}")
