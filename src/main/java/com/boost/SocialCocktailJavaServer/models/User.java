@@ -20,25 +20,24 @@ public class User {
 	private String email;
 	@JsonView(JacksonView.freeContext.class)
 	private String phoneNum;
+
+	@JsonView(JacksonView.freeContext.class)
+	private boolean isAdmin;
 	
 	@ManyToMany
-	//@JsonView(JacksonView.withCocktailContext.class)
 	@JsonIgnore
 	private List<Cocktail> likedCocktails;
 
 	@OneToMany
-	//@JsonView(JacksonView.withCommentContext.class)
 	@JsonIgnore
 	private List<Comment> userComments;
 
 	
 	@ManyToMany
-	//@JsonView(JacksonView.withUserContext.class)
 	@JsonIgnore
 	private List<User> following;
 	
 	@ManyToMany
-	//@JsonView(JacksonView.withUserContext.class)
 	@JsonIgnore
 	private List<User> followers;
 
@@ -126,5 +125,13 @@ public class User {
 
 	public void setFollowers(List<User> followers) {
 		this.followers = followers;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean admin) {
+		isAdmin = admin;
 	}
 }

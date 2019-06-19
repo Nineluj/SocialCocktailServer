@@ -1,7 +1,9 @@
 package com.boost.SocialCocktailJavaServer.services;
 
+import com.boost.SocialCocktailJavaServer.models.Bartender;
 import com.boost.SocialCocktailJavaServer.models.Cocktail;
 import com.boost.SocialCocktailJavaServer.models.User;
+import com.boost.SocialCocktailJavaServer.repositories.BartenderRepository;
 import com.boost.SocialCocktailJavaServer.repositories.CocktailRepository;
 import com.boost.SocialCocktailJavaServer.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UserService {
 	@Autowired
 	private CocktailRepository cocktailRepository;
 
+	@Autowired
+	private BartenderRepository bartenderRepository;
+
 	// Authenticate that a correct username password pair was entered.
 	public User authenticateUser(User user) {
 		return this.userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
@@ -27,7 +32,17 @@ public class UserService {
 	// Register a user.
 	public User registerUser(User user) {
 		if (this.userRepository.findByUsername(user.getUsername()) == null) {
+			user.setAdmin(false);
 			return this.userRepository.save(user);
+		}
+		return null;
+	}
+
+	// Register a Bartender (created as unverified)
+	public Bartender registerBartender(Bartender bartender) {
+		if (this.bartenderRepository.findByUsername(bartender.getUsername()) == null) {
+			bartender.setVerified(false);
+			return this.bartenderRepository.save(bartender);
 		}
 		return null;
 	}
@@ -56,11 +71,6 @@ public class UserService {
 		likedCocktails.add(cocktail);
 		user.setLikedCocktails(likedCocktails);
 		this.userRepository.save(user);
-
-//		List<User> cocktailLikers = cocktail.getUsersLikedBy();
-//		cocktailLikers.add(user);
-//		cocktail.setUsersLikedBy(cocktailLikers);
-//		this.cocktailRepository.save(cocktail);
 	}
 
 	public List<User> getFollowers(Integer userId) {

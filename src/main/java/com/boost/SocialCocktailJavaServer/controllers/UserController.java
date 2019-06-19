@@ -1,5 +1,6 @@
 package com.boost.SocialCocktailJavaServer.controllers;
 
+import com.boost.SocialCocktailJavaServer.models.Bartender;
 import com.boost.SocialCocktailJavaServer.models.Cocktail;
 import com.boost.SocialCocktailJavaServer.models.JacksonView;
 import com.boost.SocialCocktailJavaServer.models.User;
@@ -42,6 +43,17 @@ public class UserController {
 		User retrievedUser = this.userService.registerUser(user);
 		if (retrievedUser != null) {
 			session.setAttribute("userId", retrievedUser.getId());
+			return new ResponseEntity(HttpStatus.OK);
+		}
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+	}
+
+	@JsonView(JacksonView.forUserRequest.class)
+	@PostMapping("/api/users/bartender")
+	public ResponseEntity registerBartender(@RequestBody Bartender bartender, HttpSession session) {
+		Bartender retrievedBartender = this.userService.registerBartender(bartender);
+		if (retrievedBartender != null) {
+			session.setAttribute("userId", retrievedBartender.getId());
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
