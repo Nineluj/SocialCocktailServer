@@ -3,13 +3,10 @@ package com.boost.SocialCocktailJavaServer.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Glass {
@@ -21,6 +18,7 @@ public class Glass {
 	@JsonView(JacksonView.freeContext.class)
     private String name;
 	@JsonView(JacksonView.freeContext.class)
+	@Column(length = 1024)
     private String description;
     
     @OneToMany
@@ -52,4 +50,9 @@ public class Glass {
 		this.cocktails = cocktails;
 	}
 
+	public Glass(String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.cocktails = new ArrayList<>();
+	}
 }
