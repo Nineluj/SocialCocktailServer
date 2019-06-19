@@ -9,8 +9,11 @@ public class Bartender extends User {
     @JsonView(JacksonView.freeContext.class)
     private boolean verified;
 
+    @JsonView(JacksonView.freeContext.class)
     private String barName;
+    @JsonView(JacksonView.freeContext.class)
     private String supervisorName;
+    @JsonView(JacksonView.freeContext.class)
     private String supervisorPhone;
 
     public boolean isVerified() {

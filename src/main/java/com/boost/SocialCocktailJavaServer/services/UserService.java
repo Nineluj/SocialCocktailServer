@@ -47,6 +47,17 @@ public class UserService {
 		return null;
 	}
 
+	public void verifyBartender(int uid) {
+		this.bartenderRepository.findById(uid).ifPresent(bartender -> {
+		    bartender.setVerified(true);
+		    this.bartenderRepository.save(bartender);
+        });
+	}
+
+	public List<Bartender> findUnverifiedBartenders() {
+		return this.bartenderRepository.findUnverifiedBartenders();
+	}
+
 	public User findUserById(Integer id) {
 		if (this.userRepository.findById(id).isPresent()) {
 			return this.userRepository.findById(id).get();

@@ -59,6 +59,23 @@ public class UserController {
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 
+	@JsonView(JacksonView.forUserRequest.class)
+	@GetMapping("/api/users/bartenders")
+	public List<Bartender> findUnverifiedBartenders() {
+		return this.userService.findUnverifiedBartenders();
+	}
+
+	@PostMapping("/api/users/bartenders/{uid}")
+	public ResponseEntity verifyBartender(@PathVariable("uid") int uid, HttpSession session) {
+		User requestingUser = this.userService.findUserById((Integer)session.getAttribute("userId"));
+		if (requestingUser.isAdmin()) {
+			this.userService.verifyBartender(uid);
+			return new ResponseEntity(HttpStatus.OK);
+		} else {
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		}
+	}
+
 	// Get the currently logged in User.
 	@JsonView(JacksonView.forUserRequest.class)
 	@GetMapping("/api/user")
