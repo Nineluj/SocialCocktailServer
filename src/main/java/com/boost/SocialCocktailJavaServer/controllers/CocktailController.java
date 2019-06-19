@@ -2,6 +2,7 @@ package com.boost.SocialCocktailJavaServer.controllers;
 
 import com.boost.SocialCocktailJavaServer.models.Cocktail;
 import com.boost.SocialCocktailJavaServer.models.JacksonView;
+import com.boost.SocialCocktailJavaServer.models.Tip;
 import com.boost.SocialCocktailJavaServer.models.User;
 import com.boost.SocialCocktailJavaServer.services.CocktailService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -58,6 +59,15 @@ public class CocktailController {
 	@JsonView(JacksonView.forUserRequest.class)
 	public List<User> findCocktailUsersLikes(@PathVariable("cocktailId") int cocktailId) {
 		return this.cocktailService.findCocktailUsersLikes(cocktailId);
+	}
+	
+	@PostMapping("/api/cocktails/{cocktailId}/addTip")
+	@JsonView(JacksonView.forCocktailRequest.class)
+	public ResponseEntity<Tip> createTip(@PathVariable("cocktailId") Integer cocktailId, @RequestBody Tip tip, HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		return new ResponseEntity<>(this.cocktailService.createTip(cocktailId, tip, (Integer) session.getAttribute("userId")), HttpStatus.OK);
 	}
 
 //	@GetMapping("/api/cocktail/{cocktailId}/comments")

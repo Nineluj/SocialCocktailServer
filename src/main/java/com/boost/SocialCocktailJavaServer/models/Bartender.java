@@ -1,8 +1,12 @@
 package com.boost.SocialCocktailJavaServer.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Bartender extends User {
@@ -15,6 +19,11 @@ public class Bartender extends User {
     private String supervisorName;
     @JsonView(JacksonView.freeContext.class)
     private String supervisorPhone;
+    
+    
+    @OneToMany
+    @JsonIgnore
+    private List<Tip> tips;
 
     public boolean isVerified() {
         return verified;
@@ -47,4 +56,12 @@ public class Bartender extends User {
     public void setSupervisorPhone(String supervisorPhone) {
         this.supervisorPhone = supervisorPhone;
     }
+
+	public List<Tip> getTips() {
+		return tips;
+	}
+
+	public void setTips(List<Tip> tips) {
+		this.tips = tips;
+	}
 }

@@ -28,6 +28,10 @@ public class Cocktail {
 	@ManyToOne
 	@JsonView(JacksonView.freeContext.class)
 	private Glass glassType;
+	
+	@OneToMany
+	@JsonView(JacksonView.withCocktailContext.class)
+	private List<Tip> tips;
 
 	public Cocktail() { }
 
@@ -69,5 +73,13 @@ public class Cocktail {
 
 	public void setGlassType(Glass glassType) {
 		this.glassType = glassType;
+	}
+
+	public List<Tip> getTips() {
+		return tips;
+	}
+
+	public void setTips(List<Tip> tips) {
+		this.tips = tips;
 	}
 }
