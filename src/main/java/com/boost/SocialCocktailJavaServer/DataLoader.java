@@ -28,7 +28,7 @@ public class DataLoader implements ApplicationRunner {
         if (bartenderRepository.findByUsername("admin") == null) {
             Bartender adminAccount = new Bartender();
             adminAccount.setUsername("admin");
-            adminAccount.setPassword("240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9");
+            adminAccount.setPassword("8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
             adminAccount.setVerified(true);
             adminAccount.setAdmin(true);
             adminAccount.setId(0);
