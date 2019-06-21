@@ -4,6 +4,7 @@ import com.boost.SocialCocktailJavaServer.models.Cocktail;
 import com.boost.SocialCocktailJavaServer.models.JacksonView;
 import com.boost.SocialCocktailJavaServer.models.Tip;
 import com.boost.SocialCocktailJavaServer.models.User;
+import com.boost.SocialCocktailJavaServer.services.BartenderService;
 import com.boost.SocialCocktailJavaServer.services.CocktailService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import java.util.List;
 public class CocktailController {
 	@Autowired
 	private CocktailService cocktailService;
+	
+	@Autowired
+	private BartenderService bartenderService;
 
 	@PostMapping("/api/cocktails")
 	@JsonView(JacksonView.forCocktailRequest.class)
@@ -66,6 +70,9 @@ public class CocktailController {
 	@JsonView(JacksonView.forCocktailRequest.class)
 	public ResponseEntity<Tip> createTip(@PathVariable("cocktailId") Integer cocktailId, @RequestBody Tip tip, HttpSession session) {
 		if (session.getAttribute("userId") == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		else if (!this.bartenderService.isVerifiedBartender((Integer)session.getAttribute("userId"))) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		return new ResponseEntity<>(this.cocktailService.createTip(cocktailId, tip, (Integer) session.getAttribute("userId")), HttpStatus.OK);
