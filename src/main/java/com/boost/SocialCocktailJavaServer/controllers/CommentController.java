@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,5 +71,20 @@ public class CommentController {
 	@JsonView(JacksonView.forCommentRequest.class)
 	public List<Comment> findCommentsByCocktailId(@PathVariable("cocktailId") Integer cocktailId) {
 		return this.commentService.findCommentsByCocktailId(cocktailId);
+	}
+	
+	@DeleteMapping("/api/comments/{commentId}")
+	public ResponseEntity<Void> deleteCommentById(@PathVariable("commentId") Integer commentId, HttpSession session) {
+		if (session.getAttribute("userId") == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		if (this.commentService.findAuthorIdByCommentId(commentId) != 
+			(Integer)session.getAttribute("userId")) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		if (this.commentService.deleteCommentById(commentId)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

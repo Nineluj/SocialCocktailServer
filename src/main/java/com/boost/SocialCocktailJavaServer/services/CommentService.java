@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public class CommentService {
     @Autowired
@@ -63,4 +65,36 @@ public class CommentService {
     public List<Comment> findCommentsByCocktailId(Integer cocktailId) {
     	return this.commentRepository.findCommentsByCocktail_Id(cocktailId);
     }
+
+	public boolean deleteCommentById(Integer commentId) {
+		
+		if (this.commentRepository.findById(commentId).isEmpty()) {
+			return false;
+		}
+		User user = this.commentRepository.findById(commentId).get().getAuthor();
+	
+		Cocktail cocktail = this.commentRepository.findById(commentId).get().getCocktail();
+		
+		List<Comment> userComments = user.getUserComments();
+		List<Comment> cocktailComments = cocktail.getComments();
+		
+		userComments.removeIf(comment -> comment.getId() == commentId);
+		cocktailComments.removeIf(comment -> comment.getId() == commentId);
+		
+		user.setUserComments(userComments);
+		cocktail.setComments(cocktailComments);
+		
+		this.userRepository.save(user);
+		this.cocktailRepository.save(cocktail);
+		
+		this.commentRepository.deleteById(commentId);
+		return true;
+	}
+
+	public Integer findAuthorIdByCommentId(Integer commentId) {
+		if (this.commentRepository.findById(commentId).isEmpty()) {
+			return -1;
+		}
+		return this.commentRepository.findById(commentId).get().getAuthor().getId();
+	}
 }
