@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class CommentService {
@@ -66,8 +67,7 @@ public class CommentService {
     }
 
 	public boolean deleteCommentById(Integer commentId) {
-		Optional<Comment> optComment = this.commentRepository.findById(commentId);
-		if (optComment.isEmpty()) {
+		if (!this.commentRepository.existsById(commentId)) {
 			return false;
 		}
 		User user = this.commentRepository.findById(commentId).get().getAuthor();
@@ -87,14 +87,14 @@ public class CommentService {
 		this.cocktailRepository.save(cocktail);
 		
 		this.commentRepository.deleteById(commentId);
+
 		return true;
 	}
 
 	public Integer findAuthorIdByCommentId(Integer commentId) {
-		Optional<Comment> optComment = this.commentRepository.findById(commentId);
-		if (optComment.isEmpty()) {
+		if (!this.commentRepository.existsById(commentId)) {
 			return -1;
 		}
-		return optComment.get().getAuthor().getId();
+		return this.commentRepository.findById(commentId).get().getAuthor().getId();
 	}
 }
